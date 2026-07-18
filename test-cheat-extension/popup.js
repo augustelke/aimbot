@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    body { width: 260px; font-family: sans-serif; padding: 10px; }
-    button { display: block; width: 100%; margin: 6px 0; padding: 8px; cursor: pointer; }
-    #log { font-size: 11px; margin-top: 10px; white-space: pre-wrap; max-height: 150px; overflow-y: auto; }
-  </style>
-</head>
-<body>
-  <h3>Test Anti-Cheat</h3>
-  <button id="btnTeleport">Simuler téléportation</button>
-  <button id="btnEsp">Simuler requête ESP</button>
-  <button id="btnSpam">Simuler spam positions</button>
-  <div id="log"></div>
-  <script src="popup.js"></script>
-</body>
-</html>
+function log(msg) {
+  document.getElementById("log").textContent += msg + "\n";
+}
+
+async function sendToPage(action) {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  chrome.tabs.sendMessage(tab.id, { action }, (response) => {
+    log(response?.status || "Envoyé");
+  });
+}
+
+document.getElementById("btnTeleport").addEventListener("click", () => sendToPage("teleport"));
+document.getElementById("btnEsp").addEventListener("click", () => sendToPage("esp_request"));
+document.getElementById("btnSpam").addEventListener("click", () => sendToPage("spam"));
