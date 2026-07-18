@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Test Cheat - Dev Only",
+  "version": "1.0",
+  "description": "Outil interne de test anti-cheat - usage dev uniquement",
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": ["*://tonsite.com/*"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://tonsite.com/*"],
+      "js": ["content_script.js"]
+    }
+  ]
+}
